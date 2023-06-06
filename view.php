@@ -17,10 +17,9 @@ include 'connect.php';
     <title>Consulter tous les produits</title>
 </head>
 <body>
+    <?php include 'header.php';?>
     <div class = "container">
         <h2 class = "my-5">View the products</h2>
-
-    
         <table class="table">
                 <thead>
                     <tr>
@@ -90,6 +89,7 @@ include 'connect.php';
         </table>
 
 </div>
+
 
 
 

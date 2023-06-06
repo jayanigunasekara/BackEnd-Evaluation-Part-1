@@ -27,41 +27,45 @@ include("connect.php");
     <!-- Afficher les produits -->
     <main>
         <div class = "container">
-            <h3 class = "my-5">List the products</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">id_produit</th>
-                    <th scope="col">title</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
+            <div class = "row">
+                <div class = "col-6">
+                    <h3 class = "my-5">Liste des produits</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">id_produit</th>
+                            <th scope="col">title</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
 
-                    $sql = "Select * from `produit` order by id_produit  DESC limit 15";
-                    $result = mysqli_query($connect, $sql);
-                    if($result){
-                        while($row = mysqli_fetch_assoc($result)){
-                            $id = $row['id_produit'];
-                            $title= $row['title'];
+                            $sql = "Select * from `produit` order by id_produit  DESC limit 15";
+                            $result = mysqli_query($connect, $sql);
+                            if($result){
+                                while($row = mysqli_fetch_assoc($result)){
+                                    $id = $row['id_produit'];
+                                    $title= $row['title'];
+                                    
+                                    echo '<tr>
+                                    <th scope="row">'.$id.'</th>
+                                    <td>'.strtoupper($title).'</td>';
+
+
+                                };
+
+                            }
+
+
+
+                            ?>
                             
-                            echo '<tr>
-                            <th scope="row">'.$id.'</th>
-                            <td>'.strtoupper($title).'</td>';
+                            
 
-
-                        };
-
-                    }
-
-
-
-                    ?>
-                    
-                    
-
-                </tbody>
-        </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             
 
 

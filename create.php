@@ -38,7 +38,13 @@ if(isset($_POST["submit"])){
 
                     $sql = "insert into `produit` (title, description, price, city, postal_code, reservation_text, image, isReserved) 
                     values('$title','$description', '$price', '$city','$postalCode', '$reservationText','$new_img_name', '$isReserved')";
-
+                    $result = mysqli_query($connect, $sql);
+                    if($result){
+                        header('location:accueil.php');
+                    }else{
+                        die(mysqli_error($connect));
+                    }
+       
                 }else{
                     $em = "check the extension";
 		            header("Location: accueil.php?error=$em");
@@ -50,21 +56,18 @@ if(isset($_POST["submit"])){
             header("Location: accueil.php?error=$em");
         }
     }
-    
-
-
-    
-
-    
-    //when there is no image
-    $sql = "insert into `produit` (title, description, price, city, postal_code, reservation_text, isReserved) 
-                    values('$title','$description', '$price', '$city','$postalCode', '$reservationText', '$isReserved')";
-    $result = mysqli_query($connect, $sql);
-    if($result){
-        header('location:accueil.php');
-    }else{
-        die(mysqli_error($connect));
+    else{
+        $sql = "insert into `produit` (title, description, price, city, postal_code, reservation_text,isReserved) 
+        values('$title','$description', '$price', '$city','$postalCode', '$reservationText', '$isReserved')";
+        $result = mysqli_query($connect, $sql);
+        if($result){
+            header('location:accueil.php');
+        }else{
+            die(mysqli_error($connect));
+        }
     }
+
+   
 }
 
 
@@ -82,6 +85,7 @@ if(isset($_POST["submit"])){
     <title>Ajouter un produit</title>
 </head>
 <body>
+    <?php include 'header.php';?>
     <div class = "container my-5">
         <h1>Produits</h1>
         <form method = "POST">
@@ -112,7 +116,7 @@ if(isset($_POST["submit"])){
 
             <div class="form-group">
                 <label for="image">Select Image</label>
-                <input type="file" class="form-control" id="image" placeholder="Select Image" name = "image">
+                <input type="file" class="form-control" id="image" placeholder="Select Image" name = "image", accept=".jpg, .png, .jpeg">
             </div>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="reserved" name = "isReserved">
