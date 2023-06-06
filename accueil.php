@@ -39,7 +39,7 @@ include("connect.php");
                         </thead>
                         <tbody>
                         <?php
-
+                            //select product in descending order only 15 entries
                             $sql = "Select * from `produit` order by id_produit  DESC limit 15";
                             $result = mysqli_query($connect, $sql);
                             if($result){

@@ -2,7 +2,7 @@
 include 'connect.php';
 if(isset($_GET['productId'])){
     $id = $_GET['productId'];
-
+    //select only the data relavant to the product ID from the db
     $sql = "Select * from `produit` where id_produit = $id";
    
 

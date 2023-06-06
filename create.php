@@ -7,7 +7,7 @@ if(isset($_POST["submit"])){
     $city = $_POST['city'];
     $postalCode= $_POST['postalCode'];
     $reservationText = $_POST['reservation_text'];
-    // $image = $_POST['image'];
+    
     $isReserved = $_POST['isReserved'];
     if(isset($_POST['isReserved'])) {
         $isReserved = 1;
@@ -15,6 +15,7 @@ if(isset($_POST["submit"])){
         $isReserved = 0;
      }
 
+    //  Get the Image
     if(isset($_FILES['image'])){
         $img_name = $_FILES['image']['name'];
 	    $img_size = $_FILES['image']['size'];
@@ -33,9 +34,11 @@ if(isset($_POST["submit"])){
 			    $allowed_exs = array("jpg", "jpeg", "png"); 
                 if(in_array($img_ex_lc, $allowed_exs)){
                     $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                    //Assign image file to new folder location
 				    $img_upload_path = 'uploads/'.$new_img_name;
 				    move_uploaded_file($tmp_name, $img_upload_path);
 
+                    //Insert values into the database
                     $sql = "insert into `produit` (title, description, price, city, postal_code, reservation_text, image, isReserved) 
                     values('$title','$description', '$price', '$city','$postalCode', '$reservationText','$new_img_name', '$isReserved')";
                     $result = mysqli_query($connect, $sql);
@@ -74,7 +77,7 @@ if(isset($_POST["submit"])){
 ?>
 
 
-
+<!-- Layout html Form -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
