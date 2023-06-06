@@ -7,11 +7,58 @@ if(isset($_POST["submit"])){
     $city = $_POST['city'];
     $postalCode= $_POST['postalCode'];
     $reservationText = $_POST['reservation_text'];
-    $image = $_POST['image'];
+    // $image = $_POST['image'];
+    $isReserved = $_POST['isReserved'];
+    if(isset($_POST['isReserved'])) {
+        $isReserved = 1;
+     }else{
+        $isReserved = 0;
+     }
+
+    if(isset($_FILES['image'])){
+        $img_name = $_FILES['image']['name'];
+	    $img_size = $_FILES['image']['size'];
+	    $tmp_name = $_FILES['image']['tmp_name'];
+	    $error = $_FILES['image']['error'];
+
+        if($error ===0){
+            if($img_size>120000){
+                $msg = "Sorry your file is too large";
+                header("Location: accueil.php?error=$msg");
+            }else{
+                $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+			    $img_ex_lc = strtolower($img_ex);
+               
+
+			    $allowed_exs = array("jpg", "jpeg", "png"); 
+                if(in_array($img_ex_lc, $allowed_exs)){
+                    $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+				    $img_upload_path = 'uploads/'.$new_img_name;
+				    move_uploaded_file($tmp_name, $img_upload_path);
+
+                    $sql = "insert into `produit` (title, description, price, city, postal_code, reservation_text, image, isReserved) 
+                    values('$title','$description', '$price', '$city','$postalCode', '$reservationText','$new_img_name', '$isReserved')";
+
+                }else{
+                    $em = "check the extension";
+		            header("Location: accueil.php?error=$em");
+
+                }
+            }
+        }else {
+            $em = "unknown error occurred!";
+            header("Location: accueil.php?error=$em");
+        }
+    }
+    
+
 
     
 
-    $sql = "insert into `produit` (title, description, price, city, postal_code, reservation_text, image) values('$title','$description', '$price', '$city','$postalCode', '$reservationText','$image')";
+    
+    //when there is no image
+    $sql = "insert into `produit` (title, description, price, city, postal_code, reservation_text, isReserved) 
+                    values('$title','$description', '$price', '$city','$postalCode', '$reservationText', '$isReserved')";
     $result = mysqli_query($connect, $sql);
     if($result){
         header('location:accueil.php');
@@ -62,10 +109,17 @@ if(isset($_POST["submit"])){
                 <label for="reservation_text">Reservation Text</label>
                 <input type="text" class="form-control" id="reservation_text" placeholder="reservation text" name = "reservation_text">
             </div>
+
             <div class="form-group">
                 <label for="image">Select Image</label>
                 <input type="file" class="form-control" id="image" placeholder="Select Image" name = "image">
             </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="reserved" name = "isReserved">
+                <label class="form-check-label" for="reserved">I reserved</label>
+            </div>
+
+            
                         
             <button type="submit" class="btn btn-primary" name = "submit">Submit</button>
         </form>        

@@ -17,9 +17,10 @@ include 'connect.php';
     <title>Consulter tous les produits</title>
 </head>
 <body>
-    <h2>View the products</h2>
-
     <div class = "container">
+        <h2 class = "my-5">View the products</h2>
+
+    
         <table class="table">
                 <thead>
                     <tr>
@@ -29,8 +30,8 @@ include 'connect.php';
                     <th scope="col">price</th>
                     <th scope="col">city</th>
                     <th scope="col">postal_code</th>
-                    <th scope="col">Reserved</th>
-                    <th scope="col">View the Product</th>
+                    <th scope="col">Reserved/View the Product</th>
+                    
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +47,10 @@ include 'connect.php';
                             $price = $row['price'];
                             $city = $row['city'];
                             $postal_code = $row['postal_code'];
+                            // $Reserved = $row['reservationText'];
+                            $isReserved = $row['isReserved'];
+
+
                             echo '<tr>
                             <th scope="row">'.$id.'</th>
                             <td>'.$title.'</td>
@@ -53,10 +58,23 @@ include 'connect.php';
                             <td>'.$price.'</td>
                             <td>'.$city.'</td>
                             <td>'.$postal_code.'</td>
-                            <td><button class="btn btn-primary"><a class = "text-white" href = "product.php ?productId='.$id.'"><i class="fas fa-eye-slash"></i></a></button></td>
-                            <td><button class="btn btn-primary"><a class = "text-white" href = "product.php ?productId='.$id.'"><i class="fa-solid fa-eye"></i></a></button></td>
+                            <td>';
+                            if(!$isReserved){
+                                echo 
+                            '<button class="btn btn-secondary"><a class = "text-white" href = "error.php ?productId='.$id.'"><i class="fas fa-eye-slash"></i></a></button>';
+                            }
+                            else{
+                                echo '<button class="btn btn-success"><a class = "text-white" href = "product.php ?productId='.$id.'"><i class="fa-solid fa-eye"></i></a></button>';
+                            }
+                            echo '</td>';
+                            
+                            
+
+
+                            
+                            
                            
-                            </tr>';
+                            echo '</tr>';
 
                             
                         };
